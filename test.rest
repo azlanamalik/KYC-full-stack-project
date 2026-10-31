@@ -1,0 +1,24 @@
+@baseUrl = http://localhost:3001
+@email = test@example.com
+@password = password123
+
+### Health check
+GET {{baseUrl}}/
+
+### Login
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+
+### no user
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+}
