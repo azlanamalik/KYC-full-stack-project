@@ -1,6 +1,6 @@
 import express from "express"
 import Login_dat from "../data/users.js"
-import jsonweb
+import jwt from "jsonwebtoken"
 // "/auth route"
 const router = express.Router()
 
@@ -22,8 +22,9 @@ router.post("/login" , (req,res) => {
         return res.status(400).json({"message" : "incorrect password"})
     }
     //now we done checks we can create a JWT :)
-
-    res.send(200)
+    //i see an issue here where we should rotate the jwt_secret_key each time server restarts to allow all users to reset incase of a overload
+    const jwtToken = jwt.sign({email} , process.env.JWT_SECRET_KEY , { expiresIn: "1h" })
+    res.status(202).json({token: jwtToken})
 })
 
 

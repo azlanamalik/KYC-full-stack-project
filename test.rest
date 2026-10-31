@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001
-@email = test@example.com
-@password = password123
+@email = User1@gmail.com
+@password = password
 
 ### Health check
 GET {{baseUrl}}/
