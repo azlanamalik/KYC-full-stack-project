@@ -14,17 +14,30 @@ router.post("/login" , (req,res) => {
     if (!email || !password){
         return res.status(400).json({message : `send in ${(!email) ? "username" : "password"}`})
     }
-    if(email ==! /^[^\s@]+@[^\s@]+\.[^\s@]+$/){
-        return res.status(400).json({message : "invalid format for email lol"})
-    }
     const password_on_db = Login_dat.get(email)
     if(!password_on_db){
-        return res.status(400).json({"message" : "incorrect password"})
+        return res.status(400).json({"message" : "Incorrect detials"})// important here to limit info going back to FE
+        //whether user or password is incorrect FE doesnt need to know to prevent brute force attacks
     }
     //now we done checks we can create a JWT :)
     //i see an issue here where we should rotate the jwt_secret_key each time server restarts to allow all users to reset incase of a overload
     const jwtToken = jwt.sign({email} , process.env.JWT_SECRET_KEY , { expiresIn: "1h" })
     res.status(202).json({token: jwtToken})
+})
+
+router.post('/register' , (req,res) => {
+    const {email, password} = req.body
+    if (!email || !password){
+        return res.status(400).json({message : `send in ${(!email) ? "username" : "password"}`})
+    }
+    if(email ==! /^[^\s@]+@[^\s@]+\.[^\s@]+$/){
+        return res.status(400).json({message : "invalid format for email lol"})
+    }
+    if (!Login_dat.get(email)){
+        return res.status(400).json({message : "Email in use"})
+    }
+    Login_dat.set(email, password)
+    res.status(201).json({message : "Account created successfully"})
 })
 
 
