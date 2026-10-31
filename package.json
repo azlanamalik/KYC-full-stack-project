@@ -2,15 +2,18 @@
   "name": "kyc-project",
   "version": "1.0.0",
   "description": "",
-  "main": "Untitled-2.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "nodemon --exec \"node --env-file-if-exists=.env\" server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "nodemon": "^3.1.14"
   }
 }
