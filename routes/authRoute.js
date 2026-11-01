@@ -8,6 +8,8 @@ router.get("/", (req,res) => {
     res.status(200).json({"message" : "fetched correctly"})
 })
 
+//backend auth point should be good now
+
 router.post("/login" , (req,res) => {
 
     const {email , password} = req.body
@@ -37,8 +39,10 @@ router.post('/register' , (req,res) => {
         return res.status(400).json({message : "Email in use"})
     }
     Login_dat.set(email, password)
-    res.status(201).json({message : "Account created successfully"})
+    const jwtToken = jwt.sign({email} , process.env.JWT_SECRET_KEY , { expiresIn: "1h" })
+    res.status(201).json({token: jwtToken})
 })
+
 
 
 export default router

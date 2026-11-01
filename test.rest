@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3001
-@email = User1@gmail.com
+@email = User111@gmail.com
 @password = password
 
 ### Health check
@@ -21,4 +21,47 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
+}
+
+
+###register data set
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+### ===== Compliance =====
+# Run "Login" above first so {{token}} is filled in
+@token = {{login.response.body.token}}
+@ip = 8.8.8.8
+@address = 1600 Amphitheatre Parkway, Mountain View, CA
+
+### compliance check - valid
+POST {{baseUrl}}/compliance/check
+Content-Type: application/json
+Authorisation: {{token}}
+
+{
+  "ip": "{{ip}}",
+  "address": "{{address}}"
+}
+
+### compliance check - missing fields
+POST {{baseUrl}}/compliance/check
+Content-Type: application/json
+Authorisation: {{token}}
+
+{
+}
+
+### compliance check - no auth header (expect 401)
+POST {{baseUrl}}/compliance/check
+Content-Type: application/json
+
+{
+  "ip": "{{ip}}",
+  "address": "{{address}}"
 }
