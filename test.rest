@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3001
-@email = User111@gmail.com
+@email = User1@gmail.com
 @password = password
 
 ### Health check
